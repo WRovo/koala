@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byType">
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:jdbc.properties</value>
+        </property>
+    </bean>
+    <!--spring IOC的扫描机制-->
+    <context:component-scan base-package="com.koala">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
+    </context:component-scan>
+    <!--datasourceSpring-->
+    <bean id="datasourceSpring" name="datasourceSpring" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="asWR"></property>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/koala"></property>
+    </bean>
+    <!--datasourceAlibaba-->
+    <bean id="datasourceAlibaba" class="com.alibaba.druid.pool.DruidDataSource" autowire="no">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/koala"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="asWR"></property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.koala.mapper"></property>
+    </bean>
+
+    <!-- mybatis sqlSessionFactory -->
+    <bean id="sessionFaction" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="datasourceAlibaba"></property>
+        <property name="configLocation" value="classpath:mybatis.xml"></property>
+        <property name="mapperLocations" >
+            <value>classpath:mappers/*.xml</value>
+        </property>
+    </bean>
+</beans>

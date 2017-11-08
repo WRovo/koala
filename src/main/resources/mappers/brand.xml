@@ -1,0 +1,21 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koala.mapper.BrandMapper">
+
+    <select id="queryBrand" resultType="Brand">
+        select b_id,b_name from brand;
+    </select>
+
+    <insert id="saveBrand">
+        insert into brand(b_name) values (#{b_name});
+    </insert>
+    
+    <delete id="deleteBrand">
+        delete from brand where b_id=#{b_id};
+    </delete>
+    
+    <update id="editBrand">
+        update brand set b_name=#{b_name} where b_id=#{b_id};
+    </update>
+</mapper>

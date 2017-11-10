@@ -31,4 +31,5 @@ public class Member { //会员表
     public void setM_privilege(String m_privilege) {
         this.m_privilege = m_privilege;
     }
+
 }
